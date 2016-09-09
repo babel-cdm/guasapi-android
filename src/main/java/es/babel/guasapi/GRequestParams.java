@@ -2,6 +2,7 @@ package es.babel.guasapi;
 
 import java.util.Map;
 
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -25,6 +26,7 @@ class GRequestParams extends GInputParams {
         this.header = gInputParams.header;
         this.body = gInputParams.body;
         this.callback = gInputParams.callback;
+        this.formBody = gInputParams.formBody;
     }
 
     public String getId() {
@@ -47,10 +49,27 @@ class GRequestParams extends GInputParams {
         return url;
     }
 
+    public String getSimpleBody() {
+        return body;
+    }
+
+    public GFormBody getSimpleFromBody() {
+        return formBody;
+    }
+
     public RequestBody getBody() {
         if (body == null) {
             return null;
         } else {
+            if (this.formBody != null) {
+                FormBody.Builder formBodyBuilder = new FormBody.Builder();
+                for (Map.Entry<String, String> entry : this.formBody.getFormBody().entrySet()) {
+                    formBodyBuilder.add(entry.getKey(), entry.getValue());
+                }
+
+                return formBodyBuilder.build();
+            }
+
             return (RequestBody.create(this.mediaType, this.body));
         }
     }

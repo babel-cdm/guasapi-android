@@ -49,9 +49,11 @@ public class Guasapi implements Callback {
 
     private String checkParams() {
 
-        if (params.getUrl() == null) return GConstants.URL_NOT_FOUND;
-        if (params.getType() == null) return GConstants.TYPE_NOT_FOUND;
-        if (params.getMediaType() == null) return GConstants.MEDIA_TYPE_NOT_FOUND;
+        if (params.getUrl() == null) return GConstants.GErrorMessages.URL_NOT_FOUND;
+        if (params.getType() == null) return GConstants.GErrorMessages.TYPE_NOT_FOUND;
+        if (params.getMediaType() == null) return GConstants.GErrorMessages.MEDIA_TYPE_NOT_FOUND;
+        if (params.getSimpleBody() != null && params.getSimpleFromBody() != null)
+            return GConstants.GErrorMessages.BODY_AND_FORM_BODY_CONFLICT;
 
         return null;
     }

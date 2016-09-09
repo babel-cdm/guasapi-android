@@ -8,9 +8,12 @@ import okhttp3.MediaType;
 
 public class GConstants {
 
-    public static final String URL_NOT_FOUND = "URL_NOT_FOUND";
-    public static final String TYPE_NOT_FOUND = "TYPE_NOT_FOUND";
-    public static final String MEDIA_TYPE_NOT_FOUND = "MEDIA_TYPE_NOT_FOUND";
+    static class GErrorMessages {
+        static final String URL_NOT_FOUND = "URL_NOT_FOUND";
+        static final String TYPE_NOT_FOUND = "TYPE_NOT_FOUND";
+        static final String MEDIA_TYPE_NOT_FOUND = "MEDIA_TYPE_NOT_FOUND";
+        static final String BODY_AND_FORM_BODY_CONFLICT = "BODY_AND_FORM_BODY_CONFLICT";
+    }
 
     public static final long DEFAULT_SECONDS_TIMEOUT = 30;
 
