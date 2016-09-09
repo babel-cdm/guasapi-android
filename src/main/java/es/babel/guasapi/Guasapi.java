@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -20,18 +21,18 @@ import okhttp3.Response;
 
 public class Guasapi implements Callback {
 
-    private GInputParams inputParams;
-    private GRequestParams params;
+    private GParams inputParams;
+    private GParamsInternal params;
 
     public Guasapi() {
-        inputParams = new GInputParams(this);
+        inputParams = new GParams(this);
     }
 
-    public GInputParams builder() {
+    public GParams builder() {
         return this.inputParams;
     }
 
-    void setParams(GRequestParams params) {
+    void setParams(GParamsInternal params) {
         this.params = params;
     }
 
@@ -54,6 +55,9 @@ public class Guasapi implements Callback {
         if (params.getMediaType() == null) return GConstants.GErrorMessages.MEDIA_TYPE_NOT_FOUND;
         if (params.getSimpleBody() != null && params.getSimpleFromBody() != null)
             return GConstants.GErrorMessages.BODY_AND_FORM_BODY_CONFLICT;
+        if (params.getSecurityParams() != null && params.getSecurityParams().trustAllCerts() &&
+                params.getSecurityParams().getCertificatePinner().getList().size() > 0)
+            return GConstants.GErrorMessages.SECURITY_CONFIG_CONFLICT;
 
         return null;
     }
@@ -63,6 +67,24 @@ public class Guasapi implements Callback {
                 .readTimeout(params.getTimeOut(), TimeUnit.SECONDS)
                 .connectTimeout(params.getTimeOut(), TimeUnit.SECONDS)
                 .writeTimeout(params.getTimeOut(), TimeUnit.SECONDS);
+
+        // Security config
+        if (params.getSecurityParams() != null) {
+            if (params.getSecurityParams().trustAllCerts()) {
+                GSSLSocketFactory gsslSocketFactory = new GSSLSocketFactory(params.getSecurityParams());
+                builderClient.sslSocketFactory(gsslSocketFactory.getSSLSocketFactory());
+                builderClient.hostnameVerifier(gsslSocketFactory.getVerifierTrusAllCerts());
+            }
+
+            if (params.getSecurityParams().getCertificatePinner().getList() != null) {
+                CertificatePinner.Builder certificatePinnerBuilder = new CertificatePinner.Builder();
+                for (Map.Entry<String, String> entry : params.getSecurityParams().getCertificatePinner().getList().entrySet()) {
+                    certificatePinnerBuilder.add(entry.getKey(), entry.getValue());
+                }
+
+                builderClient.certificatePinner(certificatePinnerBuilder.build());
+            }
+        }
 
         return builderClient.build();
     }

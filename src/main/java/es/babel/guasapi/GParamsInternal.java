@@ -10,23 +10,24 @@ import okhttp3.RequestBody;
  * Created by BABEL Sistemas de Información.
  */
 
-class GRequestParams extends GInputParams {
+class GParamsInternal extends GParams {
 
-    public GRequestParams(Guasapi wsapi) {
+    public GParamsInternal(Guasapi wsapi) {
         super(wsapi);
     }
 
-    public GRequestParams(GInputParams gInputParams) {
-        this.id = gInputParams.id;
-        this.mediaType = gInputParams.mediaType;
-        this.type = gInputParams.type;
-        this.timeOut = gInputParams.timeOut;
-        this.url = gInputParams.url;
-        this.gUrlParams = gInputParams.gUrlParams;
-        this.header = gInputParams.header;
-        this.body = gInputParams.body;
-        this.callback = gInputParams.callback;
-        this.formBody = gInputParams.formBody;
+    public GParamsInternal(GParams gParams) {
+        this.id = gParams.id;
+        this.mediaType = gParams.mediaType;
+        this.type = gParams.type;
+        this.timeOut = gParams.timeOut;
+        this.url = gParams.url;
+        this.gUrlParams = gParams.gUrlParams;
+        this.header = gParams.header;
+        this.body = gParams.body;
+        this.callback = gParams.callback;
+        this.formBody = gParams.formBody;
+        this.securityParams = new GParamsInternalSecurity(gParams.securityInputParams);
     }
 
     public String getId() {
@@ -92,5 +93,9 @@ class GRequestParams extends GInputParams {
 
     public GCallback getCallback() {
         return callback;
+    }
+
+    public GParamsInternalSecurity getSecurityParams() {
+        return securityParams;
     }
 }
