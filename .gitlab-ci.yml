@@ -1,0 +1,35 @@
+image: babel/android-dev
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  cache:
+    paths:
+      - app/build/
+  script:
+    - gradle --daemon --stacktrace --parallel -x test -q clean build
+  environment: develop
+  tags:
+    - android
+    - build
+  only:
+    - develop
+    - master
+
+test:
+  stage: test
+  cache:
+    paths:
+      - app/build/
+  script:
+    - gradle -a --daemon --stacktrace test
+  environment: develop
+  tags:
+    - android
+    - test
+  only:
+    - develop
+    - master

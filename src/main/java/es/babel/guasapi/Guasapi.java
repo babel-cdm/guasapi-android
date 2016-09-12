@@ -29,6 +29,9 @@ public class Guasapi implements Callback {
     }
 
     public GParams builder() {
+        if (this.inputParams == null) {
+            inputParams = new GParams(this);
+        }
         return this.inputParams;
     }
 
@@ -76,7 +79,9 @@ public class Guasapi implements Callback {
                 builderClient.hostnameVerifier(gsslSocketFactory.getVerifierTrusAllCerts());
             }
 
-            if (params.getSecurityParams().getCertificatePinner().getList() != null) {
+            if (params.getSecurityParams().getCertificatePinner() != null &&
+                    params.getSecurityParams().getCertificatePinner().getList() != null) {
+
                 CertificatePinner.Builder certificatePinnerBuilder = new CertificatePinner.Builder();
                 for (Map.Entry<String, String> entry : params.getSecurityParams().getCertificatePinner().getList().entrySet()) {
                     certificatePinnerBuilder.add(entry.getKey(), entry.getValue());
