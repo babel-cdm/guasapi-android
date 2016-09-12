@@ -16,7 +16,7 @@ public class GConstants {
         static final String SECURITY_CONFIG_CONFLICT = "SECURITY_CONFIG_CONFLICT";
     }
 
-    public static final long DEFAULT_SECONDS_TIMEOUT = 30;
+    static final long DEFAULT_SECONDS_TIMEOUT = 30;
 
     public enum Type {GET, POST, PUT, DELETE}
 
@@ -28,8 +28,8 @@ public class GConstants {
 
     public static class GSSLContext {
         public static final String SSL = "SSL";
-        public static final String TLS = "SSL";
-        public static final String TLSv1 = "SSL";
-        public static final String TLSv2 = "SSL";
+        public static final String TLS = "TLS";
+        public static final String TLSv1 = "TLSv1.1";
+        public static final String TLSv2 = "TLSv1.2";
     }
 }

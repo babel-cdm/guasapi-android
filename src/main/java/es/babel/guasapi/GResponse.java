@@ -15,7 +15,7 @@ public class GResponse {
         return id;
     }
 
-    public void setId(String id) {
+    void setId(String id) {
         this.id = id;
     }
 
@@ -23,7 +23,7 @@ public class GResponse {
         return code;
     }
 
-    public void setCode(int code) {
+    void setCode(int code) {
         this.code = code;
     }
 
@@ -31,7 +31,7 @@ public class GResponse {
         return result;
     }
 
-    public void setResult(String result) {
+    void setResult(String result) {
         this.result = result;
     }
 
@@ -39,7 +39,7 @@ public class GResponse {
         return originUrl;
     }
 
-    public void setOriginUrl(String originUrl) {
+    void setOriginUrl(String originUrl) {
         this.originUrl = originUrl;
     }
 
