@@ -7,8 +7,10 @@ package es.babel.guasapi;
 class GParamsInternalSecurity extends GParamsSecurity {
 
     public GParamsInternalSecurity(GParamsSecurity securityInputParams) {
-        this.enabledProtocols = securityInputParams.enabledProtocols;
-        this.sslContextInstace = securityInputParams.sslContextInstace;
+        this.enabledProtocols = securityInputParams == null ? null : securityInputParams.enabledProtocols;
+        this.sslContextInstace = securityInputParams == null ? null : securityInputParams.sslContextInstace;
+        this.trustAllCert = securityInputParams == null ? false : securityInputParams.trustAllCert;
+        this.certificatePinner = securityInputParams == null ? null : securityInputParams.certificatePinner;
     }
 
     public boolean trustAllCerts() {
