@@ -10,7 +10,7 @@ build:
     paths:
       - app/build/
   script:
-    - gradle --daemon --stacktrace --parallel -x test -q clean build
+    - gradle --daemon --stacktrace --parallel clean build -x test
   environment: develop
   tags:
     - android
