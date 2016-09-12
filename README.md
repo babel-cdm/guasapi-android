@@ -61,6 +61,7 @@ Usar SSLContext personalizado:
 ```
 
 ## Como usar
+
 ```
 String body = '{"key1": "value1","key2": "value2"}'
 
@@ -74,6 +75,28 @@ new Guasapi().builder()
     .setType(GConstants.Type.POST)
     .setBody(body)
     .setMediaType(GConstants.GMediaType.JSON)
+    .setHeader(gHeader)
+    .setCallback(this)
+    .doCall();
+```
+
+### Usar setFormBody 
+
+```
+GHeader gHeader = new GHeader()
+    .add("Content-Type", "text/xml;charset=UTF-8")
+    .add("Content-Length", Long.toString(body.length()));
+
+GFormBody gFormBody = new GFormBody()
+    .add("key1", "value1")
+    .add("key2", "value2");
+
+new Guasapi().builder()
+    .setId(SAUKConstant.ID_LOGIN_CHECKID)
+    .setUrl(SAUKConstant.URL_SAUK_LOGIN)
+    .setType(GConstants.Type.POST)
+    .setFormBody(gFormBody)
+    .setMediaType(GConstants.GMediaType.XML)
     .setHeader(gHeader)
     .setCallback(this)
     .doCall();
@@ -134,6 +157,48 @@ new Guasapi().builder()
         .setEnabledProtocols(new String[]{"TLSv1.1", "TLSv1.2"})
     )
     .doCall();
+```
+
+## Callback
+Las respuesta de de las peticiones se reciben todas en el **UIThread**. La clase que desee recibir al el response de la respueta debe de implementar la iterfaz **GCallback**
+
+```
+public class MyClass implements GCallback {
+	...
+}
+```
+
+Dicha interfaz contiene dos métodos que tendrán que ser sobreescribidos:
+
+```
+@Override
+public void onError(GResponse response) {
+    // TODO ...
+}
+
+@Override
+public void onSuccess(GResponse response) {
+	// TODO ...
+}
+```
+
+La estructura de GResponse sería la suiguiente:
+
+```
+id (String): Identificador del la petición.
+code (int): Código http de la respuesta.
+result (String): Resutlado obtenido.
+originUrl (String): URL que realizo la llamada.
+```
+
+Métodos de uso:
+
+```
+getId(): String
+getCode(): int
+getResult(): String
+getOriginUrl(): String
+successResponse(): boolean {Indica si el http code esta entre 200 y 300}
 ```
 
 ## Amplicaciones
