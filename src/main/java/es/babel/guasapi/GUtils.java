@@ -25,4 +25,17 @@ class GUtils {
                 return null;
         }
     }
+
+    static MediaType getMediaType(GConstants.GMediaType mediaType) {
+        switch (mediaType) {
+            case JSON:
+                return MediaType.parse("application/json; charset=utf-8");
+            case PNG:
+                return MediaType.parse("text/xml; charset=utf-8");
+            case XML:
+                return MediaType.parse("image/png");
+            default:
+                return MediaType.parse("application/json; charset=utf-8");
+        }
+    }
 }

@@ -24,11 +24,7 @@ public class GConstants {
 
     public enum Type {GET, POST, PUT, DELETE}
 
-    public static class GMediaType {
-        public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        public static final MediaType XML = MediaType.parse("text/xml; charset=utf-8");
-        public static final MediaType PNG = MediaType.parse("image/png");
-    }
+    public enum GMediaType { JSON, XML, PNG }
 
     public static class GSSLContext {
         public static final String SSL = "SSL";

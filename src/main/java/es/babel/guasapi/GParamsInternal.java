@@ -1,5 +1,6 @@
 package es.babel.guasapi;
 
+import java.io.File;
 import java.util.Map;
 
 import okhttp3.FormBody;
@@ -30,8 +31,8 @@ class GParamsInternal extends GParams {
         this.formBody = gParams.formBody;
         this.securityParams = new GParamsInternalSecurity(gParams.securityInputParams);
         this.debug = gParams.debug;
-        this.multipartFormData = gParams.multipartFormData;
-        this.multipartType = gParams.multipartType;
+        this.multipartForm = gParams.multipartForm;
+        this.file = gParams.file;
     }
 
     public String getId() {
@@ -67,6 +68,8 @@ class GParamsInternal extends GParams {
         RequestBody requestBody = null;
         if (this.body != null) {
             requestBody = RequestBody.create(this.mediaType, this.body);
+        } else if (this.file != null) {
+            requestBody = RequestBody.create(this.mediaType, this.file);
         } else if (this.formBody != null) {
             FormBody.Builder formBodyBuilder = new FormBody.Builder();
             for (Map.Entry<String, String> entry : this.formBody.getFormBody().entrySet()) {
@@ -76,7 +79,7 @@ class GParamsInternal extends GParams {
             requestBody = formBodyBuilder.build();
         }
 
-        if (this.multipartFormData != null) {
+        if (this.multipartForm != null) {
             return getRequestBodyMultipartForm(requestBody);
         }
 
@@ -111,12 +114,12 @@ class GParamsInternal extends GParams {
         return debug;
     }
 
-    public GMultipartFormData getMultipartFormData() {
-        return multipartFormData;
+    public GMultipartForm getMultipartForm() {
+        return multipartForm;
     }
 
-    public GConstants.GMultipartBody getMultipartType() {
-        return multipartType;
+    public File getFile() {
+        return file;
     }
 
     ////////////////////////////////
@@ -124,9 +127,9 @@ class GParamsInternal extends GParams {
 
     private RequestBody getRequestBodyMultipartForm(RequestBody body) {
         MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder()
-                .setType(GUtils.getMultipartBody(multipartType));
+                .setType(GUtils.getMultipartBody(multipartForm.getType()));
 
-        for (GFormDataItem item : multipartFormData.getData()) {
+        for (GFormDataItem item : multipartForm.getData()) {
             if (item.isIncludedBody()) {
                 multipartBodyBuilder.addFormDataPart(item.getKey(), item.getValue(), body);
             } else {

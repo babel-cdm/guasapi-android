@@ -115,7 +115,7 @@ public class InternalErrorTest {
                 .setType(GConstants.Type.POST)
                 .setMediaType(GConstants.GMediaType.JSON)
                 .setBody(anyString())
-                .setMultipartFormData(new GMultipartFormData()
+                .setMultipartForm(new GMultipartForm()
                         .add("title", "Logo", false)
                         .add("image", "logo.png", true)
                 )

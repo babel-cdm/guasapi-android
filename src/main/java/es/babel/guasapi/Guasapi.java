@@ -53,15 +53,36 @@ public class Guasapi implements Callback {
 
     private String checkParams() {
 
-        if (params.getUrl() == null) return GConstants.GErrorMessages.URL_NOT_FOUND;
-        if (params.getType() == null) return GConstants.GErrorMessages.TYPE_NOT_FOUND;
-        if (params.getMediaType() == null) return GConstants.GErrorMessages.MEDIA_TYPE_NOT_FOUND;
-        if (params.getSimpleBody() != null && params.getSimpleFromBody() != null)
+        if (params.getUrl() == null) {
+            return GConstants.GErrorMessages.URL_NOT_FOUND;
+        }
+
+        if (params.getType() == null) {
+            return GConstants.GErrorMessages.TYPE_NOT_FOUND;
+        }
+
+        if (params.getMediaType() == null) {
+            return GConstants.GErrorMessages.MEDIA_TYPE_NOT_FOUND;
+        }
+
+        if (params.getFile() != null && (params.getSimpleBody() != null || params.getSimpleFromBody() != null)) {
             return GConstants.GErrorMessages.BODY_AND_FORM_BODY_CONFLICT;
+        }
+
+        if (params.getSimpleBody() != null && (params.getFile() != null || params.getSimpleFromBody() != null)) {
+            return GConstants.GErrorMessages.BODY_AND_FORM_BODY_CONFLICT;
+        }
+
+        if (params.getSimpleFromBody() != null && (params.getSimpleBody() != null || params.getFile() != null)) {
+            return GConstants.GErrorMessages.BODY_AND_FORM_BODY_CONFLICT;
+        }
+
         if (params.getSecurityParams() != null && params.getSecurityParams().trustAllCerts() &&
-                params.getSecurityParams().getCertificatePinner().getList().size() > 0)
+                params.getSecurityParams().getCertificatePinner().getList().size() > 0) {
             return GConstants.GErrorMessages.SECURITY_CONFIG_CONFLICT;
-        if (params.getMultipartFormData() != null && params.getMultipartType() == null) {
+        }
+
+        if (params.getMultipartForm() != null && params.getMultipartForm().getType() == null) {
             return GConstants.GErrorMessages.MULTIPART_DATA_INCOMPLETE;
         }
 

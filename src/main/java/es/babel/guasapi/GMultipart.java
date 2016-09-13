@@ -10,7 +10,7 @@ import okhttp3.RequestBody;
 public class GMultipart {
 
 
-    GMultipartFormData formData;
+    GMultipartForm formData;
     MediaType mediaType = null;
     RequestBody body;
 

@@ -1,5 +1,7 @@
 package es.babel.guasapi;
 
+import java.io.File;
+
 import okhttp3.MediaType;
 
 /**
@@ -22,8 +24,8 @@ public class GParams {
     GCallback callback;
     GFormBody formBody = null;
     GParamsSecurity securityInputParams;
-    GMultipartFormData multipartFormData = null;
-    GConstants.GMultipartBody multipartType = null;
+    GMultipartForm multipartForm = null;
+    File file;
     boolean debug = false;
 
     public GParams() {
@@ -43,8 +45,13 @@ public class GParams {
         return this;
     }
 
-    public GParams setMediaType(MediaType mediaType) {
-        this.mediaType = mediaType;
+    public GParams setMediaType(GConstants.GMediaType mediaType) {
+        this.mediaType = GUtils.getMediaType(mediaType);
+        return this;
+    }
+
+    public GParams setMediaType(String customMediaType) {
+        this.mediaType = MediaType.parse(customMediaType);
         return this;
     }
 
@@ -98,13 +105,13 @@ public class GParams {
         return this;
     }
 
-    public GParams setMultipartFormData(GMultipartFormData multipartFormData) {
-        this.multipartFormData = multipartFormData;
+    public GParams setMultipartForm(GMultipartForm multipartForm) {
+        this.multipartForm = multipartForm;
         return this;
     }
 
-    public GParams setMultipartType(GConstants.GMultipartBody multipartType) {
-        this.multipartType = multipartType;
+    public GParams setFile (File file) {
+        this.file = file;
         return this;
     }
 }
