@@ -71,6 +71,10 @@ public class Guasapi implements Callback {
                 .connectTimeout(params.getTimeOut(), TimeUnit.SECONDS)
                 .writeTimeout(params.getTimeOut(), TimeUnit.SECONDS);
 
+        if (params.getDebug()) {
+            builderClient.addInterceptor(new GInterceptor());
+        }
+
         // Security config
         if (params.getSecurityParams() != null) {
             if (params.getSecurityParams().trustAllCerts()) {

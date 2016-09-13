@@ -8,6 +8,8 @@ import okhttp3.MediaType;
 
 public class GConstants {
 
+    static final String TAG_LIBRARY = "Guasapi";
+
     static class GErrorMessages {
         static final String URL_NOT_FOUND = "URL_NOT_FOUND";
         static final String TYPE_NOT_FOUND = "TYPE_NOT_FOUND";

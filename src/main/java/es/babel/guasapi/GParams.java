@@ -22,6 +22,7 @@ public class GParams {
     GCallback callback;
     GFormBody formBody = null;
     GParamsSecurity securityInputParams;
+    boolean debug = false;
 
     public GParams() {
     }
@@ -87,6 +88,11 @@ public class GParams {
 
     public GParams setSecurity(GParamsSecurity securityInputParams) {
         this.securityInputParams = securityInputParams;
+        return this;
+    }
+
+    public GParams setDebug(boolean debug) {
+        this.debug = debug;
         return this;
     }
 }

@@ -28,6 +28,7 @@ class GParamsInternal extends GParams {
         this.callback = gParams.callback;
         this.formBody = gParams.formBody;
         this.securityParams = new GParamsInternalSecurity(gParams.securityInputParams);
+        this.debug = gParams.debug;
     }
 
     public String getId() {
@@ -97,5 +98,9 @@ class GParamsInternal extends GParams {
 
     public GParamsInternalSecurity getSecurityParams() {
         return securityParams;
+    }
+
+    public boolean getDebug() {
+        return debug;
     }
 }
