@@ -30,7 +30,8 @@ Como usar:
 Usar un MediaType personalizado:
 
 ```
-.setMediaType(MediaType.parse("{Indicar el string}"))
+.setMediaType("{Indicar en formato string}")
+.setMediaType("application/json; charset=utf-8")
 ```
 
 #### SSLContext
@@ -80,7 +81,27 @@ new Guasapi().builder()
     .doCall();
 ```
 
-### Usar setFormBody 
+### Enviar fichero 
+
+```
+File file = new File("README.md");
+
+GHeader gHeader = new GHeader()
+    .add("Content-Type", "application/json;charset=UTF-8")
+    .add("Content-Length", Long.toString(body.length()));
+
+new Guasapi().builder()
+    .setId("1234567")
+    .setUrl("http://desarrollo.babel.es/api/empleados")
+    .setType(GConstants.Type.POST)
+    .setFile(file)
+    .setMediaType(GConstants.GMediaType.JSON)
+    .setHeader(gHeader)
+    .setCallback(this)
+    .doCall();
+```
+
+### Enviar FormBody 
 
 ```
 GHeader gHeader = new GHeader()
@@ -100,6 +121,34 @@ new Guasapi().builder()
     .setHeader(gHeader)
     .setCallback(this)
     .doCall();
+```
+
+### Usar MultipartForm
+
+```
+GHeader gHeader = new GHeader()
+    .add("Content-Type", "text/xml;charset=UTF-8")
+    .add("Content-Length", Long.toString(body.length()));
+
+GFormBody gFormBody = new GFormBody()
+    .add("key1", "value1")
+    .add("key2", "value2");
+
+new Guasapi().builder()
+    .setId(SAUKConstant.ID_LOGIN_CHECKID)
+    .setUrl(SAUKConstant.URL_SAUK_LOGIN)
+    .setType(GConstants.Type.POST)
+    .setFormBody(gFormBody)
+    .setMultipartForm(new GMultipartFormData()
+        .setType(GConstants.GMultipartBody.FORM)    
+        .add("title", "Logo", false /* No incluir body */)
+        .add("image", "logo.png", true /* Incluir body */) 
+    )
+    .setMediaType(GConstants.GMediaType.XML)
+    .setHeader(gHeader)
+    .setCallback(this)
+    .doCall();
+
 ```
 
 ### Indicar certificados para SSL-Pining
@@ -199,6 +248,39 @@ getCode(): int
 getResult(): String
 getOriginUrl(): String
 successResponse(): boolean {Indica si el http code esta entre 200 y 300}
+```
+
+## Depuración
+
+Habilitar depuración interna de la libraria:
+
+```
+.setDebug(true)
+```
+
+Ejemplo de salida de consola (log):
+
+```
+I/Guasapi: Sending request http://desarrollo.babel.es/api/empleados
+       POST
+       null
+       Content-Type: text/xml;charset=UTF-8
+       Content-Length: 425
+       
+I/Guasapi: Received response for http://desarrollo.babel.es/api/empleados in 1837,3ms
+       http/1.1
+       Date: Tue, 13 Sep 2016 15:37:45 GMT
+       X-Frame-Options: SAMEORIGIN
+       X-Powered-By: Servlet/3.0
+       Vary: Accept-Encoding,User-Agent
+       X-Content-Type-Options: nosniff
+       X-XSS-Protection: 1; mode=block
+       Strict-Transport-Security: max-age=15768000; includeSubDomains
+       Connection: close
+       Transfer-Encoding: chunked
+       Content-Type: text/xml;charset=UTF-8
+       Content-Language: en-GB
+       Message: Internal Server Error
 ```
 
 ## Amplicaciones
