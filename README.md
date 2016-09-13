@@ -34,6 +34,33 @@ Usar un MediaType personalizado:
 .setMediaType("application/json; charset=utf-8")
 ```
 
+### MultipartBodyType:
+
+* ALTERNATIVE
+> El tipo "multipart/alternative" es sintácticamente idéntico a "multipart/mixed", pero la semántica son diferentes. En particular, cada una de las partes del cuerpo es una versión "alternativa" de la misma información.
+
+* DIGEST
+> Este tipo es sintácticamente idéntico a "multipart/mixed", pero la semántica son diferentes. En particular, en un digest, el valor de tipo de contenido predeterminado para una parte del cuerpo se cambia de "text/plain" a "mensaje/rfc822".
+
+* FORM
+> El media-type multipart/form-data sigue las reglas de todos los flujos de datos MIME de varias partes como se describe en el RFC 2046. En las formas, hay una serie de campos a ser suministrados por el usuario que rellena el formulario. Cada campo tiene un nombre. Dentro de una determinada forma, los nombres son únicos.
+
+* MIXED
+> El subtipo "mixed" de "multipart" es para uso cuando las partes del cuerpo son independientes y deben ser agrupados en un orden determinado. Cualquier subtipos "multipart" que una implementación no reconoce deben ser tratados como de subtipo "mixed".
+
+* PARALLEL
+> Este tipo es sintácticamente idéntico a "multipart/mixed", pero la semántica son diferentes. En particular, en una entidad paralelo, el orden de las partes del cuerpo no es significativo.
+
+Como usar:
+
+```
+.setMultipartForm(new GMultipartFormData()
+    .setType(GConstants.GMultipartBody.FORM)
+    .add("title", "Logo", false /* No incluir body */)
+    .add("image", "logo.png", true /* Incluir body */) 
+)
+```
+
 #### SSLContext
 * SSL
 * TLS

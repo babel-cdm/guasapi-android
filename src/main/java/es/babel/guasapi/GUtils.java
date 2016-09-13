@@ -9,8 +9,8 @@ import okhttp3.MultipartBody;
 
 class GUtils {
 
-    static MediaType getMultipartBody(GConstants.GMultipartBody gMultipartBody) {
-        switch (gMultipartBody) {
+    static MediaType getMultipartBody(GConstants.GMultipartBodyType gMultipartBodyType) {
+        switch (gMultipartBodyType) {
             case ALTERNATIVE:
                 return MultipartBody.ALTERNATIVE;
             case DIGEST:

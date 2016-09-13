@@ -10,7 +10,7 @@ import java.util.List;
 public class GMultipartForm {
 
     List<GFormDataItem> list;
-    GConstants.GMultipartBody multipartType = null;
+    GConstants.GMultipartBodyType multipartType = null;
 
     public GMultipartForm() {
         this.list = new ArrayList<>();
@@ -21,7 +21,7 @@ public class GMultipartForm {
         return this;
     }
 
-    public GMultipartForm setType(GConstants.GMultipartBody multipartType) {
+    public GMultipartForm setType(GConstants.GMultipartBodyType multipartType) {
         this.multipartType = multipartType;
         return this;
     }
@@ -30,7 +30,7 @@ public class GMultipartForm {
         return list;
     }
 
-    GConstants.GMultipartBody getType() {
+    GConstants.GMultipartBodyType getType() {
         return multipartType;
     }
 }

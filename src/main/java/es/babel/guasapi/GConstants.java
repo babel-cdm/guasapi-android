@@ -33,6 +33,6 @@ public class GConstants {
         public static final String TLSv2 = "TLSv1.2";
     }
 
-    public enum GMultipartBody { ALTERNATIVE, DIGEST, FORM, MIXED, PARALLEL }
+    public enum GMultipartBodyType { ALTERNATIVE, DIGEST, FORM, MIXED, PARALLEL }
 
 }
