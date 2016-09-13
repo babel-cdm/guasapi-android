@@ -27,6 +27,7 @@ public class GParams {
     GMultipartForm multipartForm = null;
     File file;
     boolean debug = false;
+    GCache cache = null;
 
     public GParams() {
     }
@@ -112,6 +113,11 @@ public class GParams {
 
     public GParams setFile (File file) {
         this.file = file;
+        return this;
+    }
+
+    public GParams setCache (GCache cache) {
+        this.cache = cache;
         return this;
     }
 }

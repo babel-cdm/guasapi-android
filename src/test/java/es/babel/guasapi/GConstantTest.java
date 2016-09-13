@@ -16,6 +16,7 @@ public class GConstantTest {
      static GResponse responseBodyConflict = new GResponse();
      static GResponse responseSecurityConflict = new GResponse();
      static GResponse responseMultipartDataIncomplete = new GResponse();
+     static GResponse responseCacheConfigNotFound = new GResponse();
 
      static GFormBody formBody = new GFormBody();
 
@@ -58,6 +59,11 @@ public class GConstantTest {
         responseMultipartDataIncomplete.setResult("MULTIPART_DATA_INCOMPLETE");
         responseMultipartDataIncomplete.setId(ID);
         responseMultipartDataIncomplete.setOriginUrl(URL);
+
+        responseCacheConfigNotFound.setCode(400);
+        responseCacheConfigNotFound.setResult("CACHE_CONFIG_NOT_FOUND");
+        responseCacheConfigNotFound.setId(ID);
+        responseCacheConfigNotFound.setOriginUrl(URL);
 
         formBody.add("key1", "value1");
     }

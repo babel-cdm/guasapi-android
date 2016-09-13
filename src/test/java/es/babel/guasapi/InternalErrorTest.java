@@ -8,6 +8,8 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.File;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
@@ -124,6 +126,26 @@ public class InternalErrorTest {
 
         verify(callback, times(1)).onError(callbackCaptor.capture());
         checkResponseParams(GConstantTest.responseMultipartDataIncomplete);
+    }
+
+    @Test
+    public void checkParams_errorCacheConfigurationNotFound() throws Exception {
+
+        new Guasapi().builder()
+                .setId(GConstantTest.ID)
+                .setUrl(GConstantTest.URL)
+                .setType(GConstants.Type.POST)
+                .setMediaType(GConstants.GMediaType.JSON)
+                .setBody(anyString())
+                .setCache(new GCache()
+                        .setDirectory(new File("/storage/extSdCard/guasapi-cache"))
+                        .setSize(10)
+                )
+                .setCallback(callback)
+                .doCall();
+
+        verify(callback, times(1)).onError(callbackCaptor.capture());
+        checkResponseParams(GConstantTest.responseCacheConfigNotFound);
     }
 
     private void checkResponseParams(GResponse response) {

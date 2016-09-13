@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.CertificatePinner;
@@ -86,6 +87,10 @@ public class Guasapi implements Callback {
             return GConstants.GErrorMessages.MULTIPART_DATA_INCOMPLETE;
         }
 
+        if (params.getCache() != null && params.getCache().getDirectory() == null) {
+            return GConstants.GErrorMessages.CACHE_CONFIG_NOT_FOUND;
+        }
+
         return null;
     }
 
@@ -97,6 +102,11 @@ public class Guasapi implements Callback {
 
         if (params.getDebug()) {
             builderClient.addInterceptor(new GInterceptor());
+        }
+
+        if (params.getCache() != null) {
+            Cache cache = new Cache(params.getCache().getDirectory(), params.getCache().getSize());
+            builderClient.cache(cache);
         }
 
         // Security config

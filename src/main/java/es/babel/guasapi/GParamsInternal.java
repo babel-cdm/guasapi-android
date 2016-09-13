@@ -33,6 +33,7 @@ class GParamsInternal extends GParams {
         this.debug = gParams.debug;
         this.multipartForm = gParams.multipartForm;
         this.file = gParams.file;
+        this.cache = gParams.cache;
     }
 
     public String getId() {
@@ -120,6 +121,10 @@ class GParamsInternal extends GParams {
 
     public File getFile() {
         return file;
+    }
+
+    public GCache getCache() {
+        return cache;
     }
 
     ////////////////////////////////

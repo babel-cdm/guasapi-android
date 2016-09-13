@@ -19,7 +19,7 @@ public class GHeader {
         return this;
     }
 
-    public Map<String, String> getHeader() {
+    Map<String, String> getHeader() {
         return map;
     }
 }

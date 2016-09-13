@@ -18,6 +18,7 @@ public class GConstants {
         static final String BODY_AND_FORM_BODY_CONFLICT = "BODY_AND_FORM_BODY_CONFLICT";
         static final String SECURITY_CONFIG_CONFLICT = "SECURITY_CONFIG_CONFLICT";
         static final String MULTIPART_DATA_INCOMPLETE = "MULTIPART_DATA_INCOMPLETE";
+        static final String CACHE_CONFIG_NOT_FOUND = "CACHE_CONFIG_NOT_FOUND";
     }
 
     static final long DEFAULT_SECONDS_TIMEOUT = 30;

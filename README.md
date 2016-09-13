@@ -277,6 +277,32 @@ getOriginUrl(): String
 successResponse(): boolean {Indica si el http code esta entre 200 y 300}
 ```
 
+## Cache
+Utilizar una cache local para los response; Hay dos parámetros configurables:
+
+* Directory ```.setDirectory(File)```
+> Archivo que almacenará la cache. Hay que tener en cuenta que la aplicación debe de disponer de permisos para realzar la escritura de la cache.
+ 
+* Size: ```.setSize(int)```
+> Tamaño maximo de la cache, indicado en MegasBytes.
+
+Como usar:
+
+```
+new Guasapi().builder()
+    .setId(GConstantTest.ID)
+    .setUrl(GConstantTest.URL)
+    .setType(GConstants.Type.POST)
+    .setMediaType(GConstants.GMediaType.JSON)
+    .setBody(anyString())
+    .setCache(new GCache()
+            .setDirectory(new File("/storage/extSdCard/guasapi-cache"))
+            .setSize(10)
+    )
+    .setCallback(callback)
+    .doCall();
+```
+
 ## Depuración
 
 Habilitar depuración interna de la libraria:
