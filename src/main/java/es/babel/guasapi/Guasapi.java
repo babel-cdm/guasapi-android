@@ -61,6 +61,9 @@ public class Guasapi implements Callback {
         if (params.getSecurityParams() != null && params.getSecurityParams().trustAllCerts() &&
                 params.getSecurityParams().getCertificatePinner().getList().size() > 0)
             return GConstants.GErrorMessages.SECURITY_CONFIG_CONFLICT;
+        if (params.getMultipartFormData() != null && params.getMultipartType() == null) {
+            return GConstants.GErrorMessages.MULTIPART_DATA_INCOMPLETE;
+        }
 
         return null;
     }

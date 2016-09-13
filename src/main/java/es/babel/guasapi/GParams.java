@@ -22,6 +22,8 @@ public class GParams {
     GCallback callback;
     GFormBody formBody = null;
     GParamsSecurity securityInputParams;
+    GMultipartFormData multipartFormData = null;
+    GConstants.GMultipartBody multipartType = null;
     boolean debug = false;
 
     public GParams() {
@@ -66,7 +68,7 @@ public class GParams {
         return this;
     }
 
-    public GParams setgUrlParams(GUrlParams gUrlParams) {
+    public GParams setUrlParams(GUrlParams gUrlParams) {
         this.gUrlParams = gUrlParams;
         return this;
     }
@@ -93,6 +95,16 @@ public class GParams {
 
     public GParams setDebug(boolean debug) {
         this.debug = debug;
+        return this;
+    }
+
+    public GParams setMultipartFormData(GMultipartFormData multipartFormData) {
+        this.multipartFormData = multipartFormData;
+        return this;
+    }
+
+    public GParams setMultipartType(GConstants.GMultipartBody multipartType) {
+        this.multipartType = multipartType;
         return this;
     }
 }

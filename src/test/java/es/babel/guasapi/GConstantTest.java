@@ -15,6 +15,7 @@ public class GConstantTest {
      static GResponse responseMediaTypeNotFound = new GResponse();
      static GResponse responseBodyConflict = new GResponse();
      static GResponse responseSecurityConflict = new GResponse();
+     static GResponse responseMultipartDataIncomplete = new GResponse();
 
      static GFormBody formBody = new GFormBody();
 
@@ -52,6 +53,11 @@ public class GConstantTest {
         responseSecurityConflict.setResult("SECURITY_CONFIG_CONFLICT");
         responseSecurityConflict.setId(ID);
         responseSecurityConflict.setOriginUrl(URL);
+
+        responseMultipartDataIncomplete.setCode(400);
+        responseMultipartDataIncomplete.setResult("MULTIPART_DATA_INCOMPLETE");
+        responseMultipartDataIncomplete.setId(ID);
+        responseMultipartDataIncomplete.setOriginUrl(URL);
 
         formBody.add("key1", "value1");
     }

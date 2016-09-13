@@ -106,6 +106,26 @@ public class InternalErrorTest {
         checkResponseParams(GConstantTest.responseSecurityConflict);
     }
 
+    @Test
+    public void checkParams_errorMultipartDataIncomplete() throws Exception {
+
+        new Guasapi().builder()
+                .setId(GConstantTest.ID)
+                .setUrl(GConstantTest.URL)
+                .setType(GConstants.Type.POST)
+                .setMediaType(GConstants.GMediaType.JSON)
+                .setBody(anyString())
+                .setMultipartFormData(new GMultipartFormData()
+                        .add("title", "Logo", false)
+                        .add("image", "logo.png", true)
+                )
+                .setCallback(callback)
+                .doCall();
+
+        verify(callback, times(1)).onError(callbackCaptor.capture());
+        checkResponseParams(GConstantTest.responseMultipartDataIncomplete);
+    }
+
     private void checkResponseParams(GResponse response) {
         assertEquals(response.getId(), callbackCaptor.getValue().getId());
         assertEquals(response.getCode(), callbackCaptor.getValue().getCode());

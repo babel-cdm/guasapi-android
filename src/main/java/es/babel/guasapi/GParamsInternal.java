@@ -4,6 +4,7 @@ import java.util.Map;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 /**
@@ -29,6 +30,8 @@ class GParamsInternal extends GParams {
         this.formBody = gParams.formBody;
         this.securityParams = new GParamsInternalSecurity(gParams.securityInputParams);
         this.debug = gParams.debug;
+        this.multipartFormData = gParams.multipartFormData;
+        this.multipartType = gParams.multipartType;
     }
 
     public String getId() {
@@ -60,20 +63,24 @@ class GParamsInternal extends GParams {
     }
 
     public RequestBody getBody() {
-        if (body == null) {
-            return null;
-        } else {
-            if (this.formBody != null) {
-                FormBody.Builder formBodyBuilder = new FormBody.Builder();
-                for (Map.Entry<String, String> entry : this.formBody.getFormBody().entrySet()) {
-                    formBodyBuilder.add(entry.getKey(), entry.getValue());
-                }
 
-                return formBodyBuilder.build();
+        RequestBody requestBody = null;
+        if (this.body != null) {
+            requestBody = RequestBody.create(this.mediaType, this.body);
+        } else if (this.formBody != null) {
+            FormBody.Builder formBodyBuilder = new FormBody.Builder();
+            for (Map.Entry<String, String> entry : this.formBody.getFormBody().entrySet()) {
+                formBodyBuilder.add(entry.getKey(), entry.getValue());
             }
 
-            return (RequestBody.create(this.mediaType, this.body));
+            requestBody = formBodyBuilder.build();
         }
+
+        if (this.multipartFormData != null) {
+            return getRequestBodyMultipartForm(requestBody);
+        }
+
+        return requestBody;
     }
 
     public Map<String, String> getGUrlParams() {
@@ -102,5 +109,31 @@ class GParamsInternal extends GParams {
 
     public boolean getDebug() {
         return debug;
+    }
+
+    public GMultipartFormData getMultipartFormData() {
+        return multipartFormData;
+    }
+
+    public GConstants.GMultipartBody getMultipartType() {
+        return multipartType;
+    }
+
+    ////////////////////////////////
+    // Private functions
+
+    private RequestBody getRequestBodyMultipartForm(RequestBody body) {
+        MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder()
+                .setType(GUtils.getMultipartBody(multipartType));
+
+        for (GFormDataItem item : multipartFormData.getData()) {
+            if (item.isIncludedBody()) {
+                multipartBodyBuilder.addFormDataPart(item.getKey(), item.getValue(), body);
+            } else {
+                multipartBodyBuilder.addFormDataPart(item.getKey(), item.getValue());
+            }
+        }
+
+        return multipartBodyBuilder.build();
     }
 }
