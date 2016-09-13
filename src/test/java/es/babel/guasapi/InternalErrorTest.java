@@ -138,7 +138,6 @@ public class InternalErrorTest {
                 .setMediaType(GConstants.GMediaType.JSON)
                 .setBody(anyString())
                 .setCache(new GCache()
-                        .setDirectory(new File("/storage/extSdCard/guasapi-cache"))
                         .setSize(10)
                 )
                 .setCallback(callback)
