@@ -3,6 +3,8 @@ image: babel/android-dev
 stages:
   - build
   - test
+  - analysis
+  - external
 
 build:
   stage: build
@@ -30,6 +32,30 @@ test:
   tags:
     - android
     - test
+  only:
+    - develop
+    - master
+
+sonar:
+  stage: analysis
+  script:
+    -  gradle -a --no-daemon --stacktrace --parallel -q build sonarqube
+  environment: develop
+  tags:
+    - android
+    - sonar
+  only:
+    - develop
+    - master
+
+# Workarround sonarqube + gradle in GitLab-ci (Crea automáticamente un tarea sonarqube, con
+# el estado extenal y siempre es fallida). Con esto no porovoca el fallo de la propia construcción.
+sonarqube:
+  stage: external
+  allow_failure: true
+  script: ""
+  tags:
+    - android
   only:
     - develop
     - master
