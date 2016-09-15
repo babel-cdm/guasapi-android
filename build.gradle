@@ -80,10 +80,10 @@ sonarqube {
     properties {
         property "sonar.host.url", "http://172.16.112.94:9000/"
 
-        /*property "sonar.analysis.mode", "publish" // preview
+        property "sonar.analysis.mode", "publish" // preview
         property "sonar.issuesReport.console.enable", "true"
         property "sonar.gitlab.commit_sha", revision
-        property "sonar.gitlab.ref", branch*/
+        property "sonar.gitlab.ref", branch
 
         property "sonar.projectName", "Guasapi (Andorid - Library)"
         property "sonar.projectKey", "es.babel.guasapi"
