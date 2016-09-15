@@ -14,8 +14,9 @@ public class GUrlParams {
         this.map = new HashMap<>();
     }
 
-    public void add(String key, String value) {
+    public GUrlParams add(String key, String value) {
         this.map.put(key, value);
+        return this;
     }
 
     public Map<String, String> getUrlParams() {

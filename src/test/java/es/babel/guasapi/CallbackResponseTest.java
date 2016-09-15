@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -28,6 +29,9 @@ public class CallbackResponseTest {
 
     @Captor
     ArgumentCaptor<GResponse> callbackCaptor;
+
+    @InjectMocks
+    GParamsInternal internalParams = new GParamsInternal();
 
     @Test
     public void checkParams_successResponse() throws Exception {

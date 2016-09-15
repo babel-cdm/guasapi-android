@@ -1,6 +1,8 @@
 buildscript {
     repositories {
         jcenter()
+        mavenLocal()
+        mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
@@ -26,6 +28,10 @@ android {
     lintOptions {
         warning 'InvalidPackage'
         abortOnError false
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 
     defaultConfig {
@@ -56,6 +62,7 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
 }
 
 apply plugin: 'org.sonarqube'
@@ -73,23 +80,24 @@ sonarqube {
     properties {
         property "sonar.host.url", "http://172.16.112.94:9000/"
 
-        property "sonar.analysis.mode", "publish" // preview
+        /*property "sonar.analysis.mode", "publish" // preview
         property "sonar.issuesReport.console.enable", "true"
         property "sonar.gitlab.commit_sha", revision
-        property "sonar.gitlab.ref", branch
+        property "sonar.gitlab.ref", branch*/
 
         property "sonar.projectName", "Guasapi (Andorid - Library)"
         property "sonar.projectKey", "es.babel.guasapi"
-        property "sonar.projectVersion", "1.0"
+        property "sonar.projectVersion", android.defaultConfig.versionName
         property "sonar.java.coveragePlugin", "jacoco"
 
-        property "sonar.sources", "src/main/"
+        property "sonar.sources", "src/main/java"
         property "android.sonar.tests", "src/test/java"
-        property "sonar.junit.reportsPath", "build/reports/jacoco/jacocoTestReport"
+        property "sonar.java.binaries", "build/intermediates/classes/debug"
+        property "sonar.junit.reportsPath", "build/test-results/debug/"
         property "sonar.jacoco.reportPath", "build/jacoco/testReleaseUnitTest.exec"
         property "sonar.binaries", "build/intermediates/classes/release"
         property "sonar.profile", "Android"
-        property "sonar.android.lint.report", "build/outputs/lint-results.xml"
+        property "sonar.android.lint.report", "build/outputs/lint-results-debug.xml"
         property "sonar.dynamicAnalysis", "reuseReports"
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.import_unknown_files", "true"

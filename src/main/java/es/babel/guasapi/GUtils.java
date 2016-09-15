@@ -31,9 +31,9 @@ class GUtils {
             case JSON:
                 return MediaType.parse("application/json; charset=utf-8");
             case PNG:
-                return MediaType.parse("text/xml; charset=utf-8");
-            case XML:
                 return MediaType.parse("image/png");
+            case XML:
+                return MediaType.parse("text/xml; charset=utf-8");
             default:
                 return MediaType.parse("application/json; charset=utf-8");
         }

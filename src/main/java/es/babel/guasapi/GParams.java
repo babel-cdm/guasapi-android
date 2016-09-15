@@ -26,6 +26,7 @@ public class GParams {
     GParamsSecurity securityInputParams;
     GMultipartForm multipartForm = null;
     File file;
+    boolean responseInBackground = false;
     boolean debug = false;
     GCache cache = null;
 
@@ -118,6 +119,11 @@ public class GParams {
 
     public GParams setCache (GCache cache) {
         this.cache = cache;
+        return this;
+    }
+
+    public GParams setResponseInBackground(boolean responseInBackground) {
+        this.responseInBackground = responseInBackground;
         return this;
     }
 }

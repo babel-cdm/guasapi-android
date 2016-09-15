@@ -14,8 +14,9 @@ import okhttp3.RequestBody;
 
 class GParamsInternal extends GParams {
 
-    public GParamsInternal(Guasapi wsapi) {
-        super(wsapi);
+
+
+    public GParamsInternal() {
     }
 
     public GParamsInternal(GParams gParams) {
@@ -34,6 +35,7 @@ class GParamsInternal extends GParams {
         this.multipartForm = gParams.multipartForm;
         this.file = gParams.file;
         this.cache = gParams.cache;
+        this.responseInBackground = gParams.responseInBackground;
     }
 
     public String getId() {
@@ -125,6 +127,10 @@ class GParamsInternal extends GParams {
 
     public GCache getCache() {
         return cache;
+    }
+
+    public boolean getResponseInBackground() {
+        return responseInBackground;
     }
 
     ////////////////////////////////

@@ -88,6 +88,88 @@ Usar SSLContext personalizado:
 )
 ```
 
+## Certificados
+
+La clave del certificado debe de ir en Base64 "sha1/{Base64}"
+
+```
+GCertificatePinner gCertificates = new GCertificatePinner()
+    .add("hostname", "sha1/QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQQ==")
+```
+Como usar:
+
+```
+.setSecurity(new GParamsSecurity()
+    .setCertificates(gCertificates)
+
+```
+
+## Cache
+Utilizar una cache local para los response; Hay dos parámetros configurables:
+
+* Directory ```.setDirectory(File)```
+> Archivo que almacenará la cache. Hay que tener en cuenta que la aplicación debe de disponer de permisos para realzar la escritura de la cache.
+ 
+* Size: ```.setSize(int)```
+> Tamaño maximo de la cache, indicado en MegasBytes.
+
+Como usar:
+
+```
+new Guasapi().builder()
+    .setId(GConstantTest.ID)
+    .setUrl(GConstantTest.URL)
+    .setType(GConstants.Type.POST)
+    .setMediaType(GConstants.GMediaType.JSON)
+    .setBody(anyString())
+    .setCache(new GCache()
+            .setDirectory(new File("/storage/extSdCard/guasapi-cache"))
+            .setSize(10)
+    )
+    .setCallback(callback)
+    .doCall();
+```
+
+## Response en segundo plano
+Es posible recibir el reponse de la llamada en segundo plano, por defecto se recibe en el hilo principal (**UIThread**):
+
+```
+.setResponseInBackground(true)
+```
+
+## Depuración
+
+Habilitar depuración interna de la libraria:
+
+```
+.setDebug(true)
+```
+
+Ejemplo de salida de consola (log):
+
+```
+I/Guasapi: Sending request http://desarrollo.babel.es/api/empleados
+       POST
+       null
+       Content-Type: text/xml;charset=UTF-8
+       Content-Length: 425
+       
+I/Guasapi: Received response for http://desarrollo.babel.es/api/empleados in 1837,3ms
+       http/1.1
+       Date: Tue, 13 Sep 2016 15:37:45 GMT
+       X-Frame-Options: SAMEORIGIN
+       X-Powered-By: Servlet/3.0
+       Vary: Accept-Encoding,User-Agent
+       X-Content-Type-Options: nosniff
+       X-XSS-Protection: 1; mode=block
+       Strict-Transport-Security: max-age=15768000; includeSubDomains
+       Connection: close
+       Transfer-Encoding: chunked
+       Content-Type: text/xml;charset=UTF-8
+       Content-Language: en-GB
+       Message: Internal Server Error
+```
+
 ## Como usar
 
 ```
@@ -188,8 +270,7 @@ GHeader gHeader = new GHeader()
     .add("Content-Length", Long.toString(body.length()));
 
 GCertificatePinner gCertificates = new GCertificatePinner()
-    .add("hostname", "sha1/AAAAAAAAAAAAAAAAAAAAAAAAA")
-    .add("hostname", "sha256/BBBBBBBBBBBBBBBBBBBBBBBBB");
+    .add("hostname", "sha1/QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQQ==")
 
 new Guasapi().builder()
     .setId("123456")
@@ -215,10 +296,6 @@ GHeader gHeader = new GHeader()
     .add("Content-Type", "text/xml;charset=UTF-8")
     .add("Content-Length", Long.toString(body.length()));
 
-GCertificatePinner gCertificates = new GCertificatePinner()
-    .add("hostname", "sha1/AAAAAAAAAAAAAAAAAAAAAAAAA")
-    .add("hostname", "sha256/BBBBBBBBBBBBBBBBBBBBBBBBB");
-
 new Guasapi().builder()
     .setId("123456")
     .setUrl("http://desarrollo.babel.es/api/empleados")
@@ -236,7 +313,7 @@ new Guasapi().builder()
 ```
 
 ## Callback
-Las respuesta de de las peticiones se reciben todas en el **UIThread**. La clase que desee recibir al el response de la respueta debe de implementar la iterfaz **GCallback**
+Las respuesta de de las peticiones se reciben todas en el **UIThread** por defecto, si se desea recibir en segundo plano, revisar los puntos anteriores. La clase que desee recibir al el response de la respueta debe de implementar la iterfaz **GCallback**
 
 ```
 public class MyClass implements GCallback {
@@ -275,65 +352,6 @@ getCode(): int
 getResult(): String
 getOriginUrl(): String
 successResponse(): boolean {Indica si el http code esta entre 200 y 300}
-```
-
-## Cache
-Utilizar una cache local para los response; Hay dos parámetros configurables:
-
-* Directory ```.setDirectory(File)```
-> Archivo que almacenará la cache. Hay que tener en cuenta que la aplicación debe de disponer de permisos para realzar la escritura de la cache.
- 
-* Size: ```.setSize(int)```
-> Tamaño maximo de la cache, indicado en MegasBytes.
-
-Como usar:
-
-```
-new Guasapi().builder()
-    .setId(GConstantTest.ID)
-    .setUrl(GConstantTest.URL)
-    .setType(GConstants.Type.POST)
-    .setMediaType(GConstants.GMediaType.JSON)
-    .setBody(anyString())
-    .setCache(new GCache()
-            .setDirectory(new File("/storage/extSdCard/guasapi-cache"))
-            .setSize(10)
-    )
-    .setCallback(callback)
-    .doCall();
-```
-
-## Depuración
-
-Habilitar depuración interna de la libraria:
-
-```
-.setDebug(true)
-```
-
-Ejemplo de salida de consola (log):
-
-```
-I/Guasapi: Sending request http://desarrollo.babel.es/api/empleados
-       POST
-       null
-       Content-Type: text/xml;charset=UTF-8
-       Content-Length: 425
-       
-I/Guasapi: Received response for http://desarrollo.babel.es/api/empleados in 1837,3ms
-       http/1.1
-       Date: Tue, 13 Sep 2016 15:37:45 GMT
-       X-Frame-Options: SAMEORIGIN
-       X-Powered-By: Servlet/3.0
-       Vary: Accept-Encoding,User-Agent
-       X-Content-Type-Options: nosniff
-       X-XSS-Protection: 1; mode=block
-       Strict-Transport-Security: max-age=15768000; includeSubDomains
-       Connection: close
-       Transfer-Encoding: chunked
-       Content-Type: text/xml;charset=UTF-8
-       Content-Language: en-GB
-       Message: Internal Server Error
 ```
 
 ## Amplicaciones

@@ -1,24 +1,49 @@
 package es.babel.guasapi;
 
+import java.io.File;
+
 /**
  * Created by BABEL Sistemas de Información.
  */
 
 public class GConstantTest {
-     static String ID = "1234567";
-     static String URL = "http://desarrollo.babel.es/api/ejemplo";
 
-     static GResponse responseOK = new GResponse();
-     static GResponse responseErrorGeneric = new GResponse();
-     static GResponse responseUrlNotFound = new GResponse();
-     static GResponse responseTypeNotFound = new GResponse();
-     static GResponse responseMediaTypeNotFound = new GResponse();
-     static GResponse responseBodyConflict = new GResponse();
-     static GResponse responseSecurityConflict = new GResponse();
-     static GResponse responseMultipartDataIncomplete = new GResponse();
-     static GResponse responseCacheConfigNotFound = new GResponse();
+    static String ID = "1234567";
+    static String URL = "http://desarrollo.babel.es/api/ejemplo";
 
-     static GFormBody formBody = new GFormBody();
+    static GHeader gHeader = new GHeader()
+            .add("Content-Type", "application/json;charset=UTF-8");
+
+    static GUrlParams gUrlParams = new GUrlParams()
+            .add("key", "value");
+
+    static GParamsSecurity gParamSecurityTrustAllCert = new GParamsSecurity()
+            .setTrustAllCert(true)
+            .setSslContextInstace("SSL")
+            .setEnabledProtocols(new String[]{"TLSv1.1", "TLSv1.2"});
+
+    static GParamsSecurity gParamSecurityWhitCerts = new GParamsSecurity()
+            .setCertificates(new GCertificatePinner()
+                    .add("hostname", "sha1/QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQQ=="))
+            .setSslContextInstace("SSL")
+            .setEnabledProtocols(new String[]{"TLSv1.1", "TLSv1.2"});
+
+    static GCache gCache = new GCache()
+            .setDirectory(new File("/storage/extSdCard/guasapi-cache"))
+            .setSize(10);
+
+
+    static GResponse responseOK = new GResponse();
+    static GResponse responseErrorGeneric = new GResponse();
+    static GResponse responseUrlNotFound = new GResponse();
+    static GResponse responseTypeNotFound = new GResponse();
+    static GResponse responseMediaTypeNotFound = new GResponse();
+    static GResponse responseBodyConflict = new GResponse();
+    static GResponse responseSecurityConflict = new GResponse();
+    static GResponse responseMultipartDataIncomplete = new GResponse();
+    static GResponse responseCacheConfigNotFound = new GResponse();
+
+    static GFormBody formBody = new GFormBody();
 
     static {
         responseOK.setCode(200);

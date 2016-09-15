@@ -79,6 +79,7 @@ public class Guasapi implements Callback {
         }
 
         if (params.getSecurityParams() != null && params.getSecurityParams().trustAllCerts() &&
+                params.getSecurityParams().getCertificatePinner() != null &&
                 params.getSecurityParams().getCertificatePinner().getList().size() > 0) {
             return GConstants.GErrorMessages.SECURITY_CONFIG_CONFLICT;
         }
@@ -94,7 +95,7 @@ public class Guasapi implements Callback {
         return null;
     }
 
-    private OkHttpClient buildClient() {
+    OkHttpClient buildClient() {
         OkHttpClient.Builder builderClient = new OkHttpClient.Builder()
                 .readTimeout(params.getTimeOut(), TimeUnit.SECONDS)
                 .connectTimeout(params.getTimeOut(), TimeUnit.SECONDS)
@@ -205,26 +206,39 @@ public class Guasapi implements Callback {
     @Override
     public void onFailure(Call call, IOException e) {
         final String error = e.getMessage().toString();
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                params.getCallback().onError(buildWSResponseFailParams(error));
-            }
-        });
+
+        if (params.getResponseInBackground()) {
+            params.getCallback().onError(buildWSResponseFailParams(error));
+        } else {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    params.getCallback().onError(buildWSResponseFailParams(error));
+                }
+            });
+        }
     }
 
     @Override
     public void onResponse(Call call, Response response) throws IOException {
         final GResponse res = buildWSResponse(response);
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                if (res != null && res.successResponse()) {
-                    params.getCallback().onSuccess(res);
-                } else {
-                    params.getCallback().onError(res);
-                }
+        if (params.getResponseInBackground()) {
+            if (res != null && res.successResponse()) {
+                params.getCallback().onSuccess(res);
+            } else {
+                params.getCallback().onError(res);
             }
-        });
+        } else {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    if (res != null && res.successResponse()) {
+                        params.getCallback().onSuccess(res);
+                    } else {
+                        params.getCallback().onError(res);
+                    }
+                }
+            });
+        }
     }
 }
