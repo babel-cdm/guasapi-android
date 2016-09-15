@@ -2,6 +2,7 @@ package es.babel.guasapi;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -187,6 +188,9 @@ public class Guasapi implements Callback {
             gResponse.setResult(response.body().string());
             return gResponse;
         } catch (IOException e) {
+            if (params.getDebug()) {
+                Log.e(GConstants.TAG_LIBRARY, e.getMessage());
+            }
             return null;
         }
 
@@ -205,7 +209,7 @@ public class Guasapi implements Callback {
 
     @Override
     public void onFailure(Call call, IOException e) {
-        final String error = e.getMessage().toString();
+        final String error = e.getMessage();
 
         if (params.getResponseInBackground()) {
             params.getCallback().onError(buildWSResponseFailParams(error));

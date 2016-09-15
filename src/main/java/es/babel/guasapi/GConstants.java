@@ -1,8 +1,5 @@
 package es.babel.guasapi;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-
 /**
  * Created by BABEL Sistemas de Información.
  */
