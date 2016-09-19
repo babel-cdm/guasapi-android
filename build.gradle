@@ -78,7 +78,8 @@ ext.branch = proc_branch.text.trim()
 sonarqube {
 
     properties {
-        property "sonar.host.url", "http://172.16.112.108:9000/"
+        //property "sonar.host.url", "http://172.16.112.108:9000/"
+        property "sonar.host.url", "http://172.10.1.168:9000/sonar/"
 
         property "sonar.analysis.mode", "publish" // preview
         property "sonar.issuesReport.console.enable", "true"
