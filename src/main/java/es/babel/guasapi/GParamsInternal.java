@@ -14,8 +14,6 @@ import okhttp3.RequestBody;
 
 class GParamsInternal extends GParams {
 
-
-
     public GParamsInternal() {
     }
 
@@ -36,6 +34,7 @@ class GParamsInternal extends GParams {
         this.file = gParams.file;
         this.cache = gParams.cache;
         this.responseInBackground = gParams.responseInBackground;
+        this.bodyResponse = gParams.isBodyResponse();
     }
 
     public String getId() {

@@ -185,7 +185,13 @@ public class Guasapi implements Callback {
             gResponse.setId(params.getId());
             gResponse.setOriginUrl(params.getUrl());
             gResponse.setCode(response.code());
-            gResponse.setResult(response.body().string());
+
+            if (params.isBodyResponse()) {
+                gResponse.setResponseBody(response.body());
+            } else {
+                gResponse.setResult(response.body().string());
+            }
+
             return gResponse;
         } catch (IOException e) {
             if (params.getDebug()) {

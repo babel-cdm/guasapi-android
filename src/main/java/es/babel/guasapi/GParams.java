@@ -13,10 +13,10 @@ public class GParams {
     Guasapi guasapi;
     GParamsInternalSecurity securityParams;
 
+    Long timeOut = GConstants.DEFAULT_SECONDS_TIMEOUT;
     String id = null;
     MediaType mediaType = null;
     GConstants.Type type = null;
-    Long timeOut = GConstants.DEFAULT_SECONDS_TIMEOUT;
     String url = null;
     GUrlParams gUrlParams = null;
     GHeader header = null;
@@ -25,10 +25,11 @@ public class GParams {
     GFormBody formBody = null;
     GParamsSecurity securityInputParams;
     GMultipartForm multipartForm = null;
+    GCache cache = null;
     File file;
     boolean responseInBackground = false;
     boolean debug = false;
-    GCache cache = null;
+    boolean bodyResponse = false;
 
     public GParams() {
     }
@@ -125,5 +126,14 @@ public class GParams {
     public GParams setResponseInBackground(boolean responseInBackground) {
         this.responseInBackground = responseInBackground;
         return this;
+    }
+
+    public GParams setBodyResponse(boolean sourceResponse) {
+        this.bodyResponse = sourceResponse;
+        return this;
+    }
+
+    public boolean isBodyResponse() {
+        return bodyResponse;
     }
 }

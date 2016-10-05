@@ -1,5 +1,8 @@
 package es.babel.guasapi;
 
+import okhttp3.ResponseBody;
+import okio.BufferedSource;
+
 /**
  * Created by BABEL Sistemas de Información.
  */
@@ -10,6 +13,15 @@ public class GResponse {
     int code;
     String result;
     String originUrl;
+    ResponseBody responseBody;
+
+    public ResponseBody getResponseBody() {
+        return responseBody;
+    }
+
+    public void setResponseBody(ResponseBody responseBody) {
+        this.responseBody = responseBody;
+    }
 
     public String getId() {
         return id;
