@@ -68,12 +68,12 @@ dependencies {
 apply plugin: 'org.sonarqube'
 
 // Variables para obtener info de git
-def cmd_branch = "git rev-parse --abbrev-ref HEAD"
-def cmd_commit = "git rev-parse HEAD"
-def proc_commit = cmd_commit.execute()
-def proc_branch = cmd_branch.execute()
-ext.revision = proc_commit.text.trim()
-ext.branch = proc_branch.text.trim()
+//def cmd_branch = "git rev-parse --abbrev-ref HEAD"
+//def cmd_commit = "git rev-parse HEAD"
+//def proc_commit = cmd_commit.execute()
+//def proc_branch = cmd_branch.execute()
+//ext.revision = proc_commit.text.trim()
+//ext.branch = proc_branch.text.trim()
 
 sonarqube {
 
